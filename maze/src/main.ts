@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 import './style.css'
 // Set up the scene

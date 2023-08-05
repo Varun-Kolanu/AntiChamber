@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import ball from "./ball";
 const ELEMENTARY_ANGLE = 0.06;
 const velocity = new THREE.Vector2(0, -1);
 

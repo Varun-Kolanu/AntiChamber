@@ -33,7 +33,7 @@ const orbit = new OrbitControls(camera, renderer.domElement);
 camera.position.set(ball.position.x-20*velocity.x,ball.position.y-20*velocity.y,0);
 
 orbit.update();
-
+orbit.enabled=false;
 const ambientLight = new THREE.AmbientLight(0xffffff, 2000);
 scene.add(ambientLight);
 

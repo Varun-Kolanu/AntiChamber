@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import ball from "./ball";
 const ELEMENTARY_ANGLE = 0.06;
 const velocity = new THREE.Vector2(0, -1);
 
@@ -7,6 +8,8 @@ const keymap = new Map();
 
 export default function (ballMesh: THREE.Mesh, camera: THREE.Camera) {
 	document.addEventListener("keydown", (e) => {
+		if(jumpId!=-1)
+		return;//no navigation when jumping
 		if (e.key === "ArrowRight") {
 			keymap.set("ArrowRight", true);
 		}
@@ -19,7 +22,27 @@ export default function (ballMesh: THREE.Mesh, camera: THREE.Camera) {
 		if (e.key === "ArrowDown") {
 			keymap.set("ArrowDown", true);
 		}
+		if(e.key===" "){
+			jumpAnim();
+		}
 	});
+	let jumpId=-1;
+	function jumpAnim() {
+		clearInterval(jumpId);
+		let k=0;
+		jumpId=setInterval(()=>
+		{
+			ballMesh.position.z=-90*Math.sin(k);
+			k+=0.05;
+			if(k>=Math.PI)
+			{
+				clearInterval(jumpId);
+				jumpId=-1
+				ballMesh.position.z=0;
+			}
+			updateCameraPos()
+		},10)
+	}
 	document.addEventListener("keyup", (e) => {
 		if (e.key === "ArrowRight") {
 			keymap.set("ArrowRight", false);
@@ -34,20 +57,19 @@ export default function (ballMesh: THREE.Mesh, camera: THREE.Camera) {
 			keymap.set("ArrowDown", false);
 		}
 	});
-	function updatePos() {
-		camera.position.x = ballMesh.position.x-20*velocity.x;
-		camera.position.y = ballMesh.position.y-20*velocity.y;
+	function updateCameraPos() {
+		camera.position.x = ballMesh.position.x - 20 * velocity.x;
+		camera.position.y = ballMesh.position.y - 20 * velocity.y;
+		camera.position.z=ballMesh.position.z;
 	}
 	setInterval(function () {
 		if (keymap.get("ArrowRight")) {
 			velocity.rotateAround(new THREE.Vector2(0, 0), ELEMENTARY_ANGLE);
 			camera.rotation.y -= ELEMENTARY_ANGLE;
-			
 		}
 		if (keymap.get("ArrowLeft")) {
 			velocity.rotateAround(new THREE.Vector2(0, 0), -ELEMENTARY_ANGLE);
 			camera.rotation.y += ELEMENTARY_ANGLE;
-			
 		}
 		if (keymap.get("ArrowUp")) {
 			ballMesh.position.add(new THREE.Vector3(velocity.x, velocity.y, 0));
@@ -57,7 +79,7 @@ export default function (ballMesh: THREE.Mesh, camera: THREE.Camera) {
 				new THREE.Vector3(-velocity.x, -velocity.y, 0)
 			);
 		}
-		updatePos();
+		updateCameraPos();
 	}, 1000 / FRAME_RATE);
 	return velocity;
 }

@@ -9,7 +9,10 @@ const keymap = new Map();
 export default function (ballMesh: THREE.Mesh, camera: THREE.Camera) {
 	document.addEventListener("keydown", (e) => {
 		if(jumpId!=-1)
-		return;//no navigation when jumping
+		{
+			keymap.clear()
+			return;//no navigation when jumping
+		}
 		if (e.key === "ArrowRight") {
 			keymap.set("ArrowRight", true);
 		}

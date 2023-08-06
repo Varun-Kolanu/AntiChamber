@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import ball from "./ball";
+// import ball from "./ball";
 const ELEMENTARY_ANGLE = 0.06;
 const velocity = new THREE.Vector2(0, -1);
 
@@ -27,8 +27,14 @@ export default function (ballMesh: THREE.Mesh, camera: THREE.Camera) {
 		}
 	});
 	let jumpId=-1;
-	function jumpAnim() {
+	function terminateAnim(id: number)
+	{
 		clearInterval(jumpId);
+		jumpId=-1
+		ballMesh.position.z=0;
+	}
+	function jumpAnim() {
+		terminateAnim(jumpId);
 		let k=0;
 		jumpId=setInterval(()=>
 		{
@@ -36,9 +42,7 @@ export default function (ballMesh: THREE.Mesh, camera: THREE.Camera) {
 			k+=0.05;
 			if(k>=Math.PI)
 			{
-				clearInterval(jumpId);
-				jumpId=-1
-				ballMesh.position.z=0;
+				terminateAnim(jumpId);
 			}
 			updateCameraPos()
 		},10)

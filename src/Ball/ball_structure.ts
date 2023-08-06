@@ -3,7 +3,7 @@ import * as THREE from "three";
 
 export default function () {
 	// const textureLoader = new THREE.TextureLoader();      
-	const sphereGeometry = new THREE.SphereGeometry(8, 50, 50);
+	const sphereGeometry = new THREE.SphereGeometry(4, 50, 50);
 	// const sphereMaterial = new THREE.MeshStandardMaterial({
 	// 	map: textureLoader.load(ballTexture),
 	// });

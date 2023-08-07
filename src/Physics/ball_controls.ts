@@ -1,7 +1,7 @@
 import * as CANNON from "cannon-es";
 import { Vector2 } from "three";
 import * as THREE from "three";
-const ELEMENTARY_ANGLE = 0.04;
+const ELEMENTARY_ANGLE = 0.02;
 const velocity = new Vector2(0, -1);
 
 const keymap = new Map();
